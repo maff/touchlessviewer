@@ -17,7 +17,6 @@ namespace TouchlessViewer
         protected TouchlessManager()
         {
             this.Touchless = new TouchlessMgr();
-            this.checkCameras();
         }
 
         /// <summary>
@@ -58,10 +57,12 @@ namespace TouchlessViewer
             set { this._touchless = value; }
         }
 
-        protected void checkCameras()
+        public bool checkCameras()
         {
             if (this.Touchless.Cameras.Count < 1)
-                Common.ShowError("Webcam not found. Touchless functionality is be disabled.");   
+                return false;
+
+            return true;
         }
     }
 }

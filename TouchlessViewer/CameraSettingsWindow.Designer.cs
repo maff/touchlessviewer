@@ -36,12 +36,12 @@
             this.groupBoxMarker = new System.Windows.Forms.GroupBox();
             this.textBoxMarkerData = new System.Windows.Forms.TextBox();
             this.groupBoxMarkerSettings = new System.Windows.Forms.GroupBox();
+            this.numericUpDownThreshold = new System.Windows.Forms.NumericUpDown();
             this.labelMarkerTreshold = new System.Windows.Forms.Label();
             this.checkBoxSmoothMarker = new System.Windows.Forms.CheckBox();
             this.checkBoxHighlight = new System.Windows.Forms.CheckBox();
             this.buttonAddMarker = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.numericUpDownThreshold = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).BeginInit();
             this.groupBoxCamera.SuspendLayout();
             this.groupBoxCamSettings.SuspendLayout();
@@ -138,6 +138,14 @@
             this.groupBoxMarkerSettings.TabStop = false;
             this.groupBoxMarkerSettings.Text = "Settings";
             // 
+            // numericUpDownThreshold
+            // 
+            this.numericUpDownThreshold.Location = new System.Drawing.Point(97, 42);
+            this.numericUpDownThreshold.Name = "numericUpDownThreshold";
+            this.numericUpDownThreshold.Size = new System.Drawing.Size(79, 20);
+            this.numericUpDownThreshold.TabIndex = 3;
+            this.numericUpDownThreshold.ValueChanged += new System.EventHandler(this.numericUpDownThreshold_ValueChanged);
+            // 
             // labelMarkerTreshold
             // 
             this.labelMarkerTreshold.AutoSize = true;
@@ -193,14 +201,6 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // numericUpDownThreshold
-            // 
-            this.numericUpDownThreshold.Location = new System.Drawing.Point(97, 42);
-            this.numericUpDownThreshold.Name = "numericUpDownThreshold";
-            this.numericUpDownThreshold.Size = new System.Drawing.Size(79, 20);
-            this.numericUpDownThreshold.TabIndex = 3;
-            this.numericUpDownThreshold.ValueChanged += new System.EventHandler(this.numericUpDownThreshold_ValueChanged);
-            // 
             // CameraSettingsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -218,6 +218,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Camera Settings";
+            this.Load += new System.EventHandler(this.CameraSettingsWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCamera)).EndInit();
             this.groupBoxCamera.ResumeLayout(false);
             this.groupBoxCamSettings.ResumeLayout(false);

@@ -17,12 +17,19 @@ namespace TouchlessViewer
         public CameraSettingsWindow()
         {
             InitializeComponent();
+
             loadCameraComboBox();
             activateCamera();
         }
 
-        private void PopulateForm()
+
+        private void CameraSettingsWindow_Load(object sender, EventArgs e)
         {
+            if (tMgr.checkCameras())
+            {
+                Common.ShowError("No cameras found. Touchless functionality will be disabled.");
+                this.Close();
+            }
         }
 
         private void buttonAdjustCamera_Click(object sender, EventArgs e)
@@ -284,5 +291,6 @@ namespace TouchlessViewer
             if(this.tMgr.Touchless.MarkerCount == 1)
                 this.tMgr.Touchless.Markers[0].SmoothingEnabled = this.checkBoxSmoothMarker.Checked;
         }
+
     }
 }

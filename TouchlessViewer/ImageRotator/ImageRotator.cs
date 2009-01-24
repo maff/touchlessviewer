@@ -14,13 +14,7 @@ namespace TouchlessViewer
     class ImageRotator
     {
         #region Delegates
-        public delegate void ImagePositionHandler();
         public delegate void ChangeFormTitle(string title);
-        #endregion
-
-        #region Events
-        public event ImagePositionHandler OnFirstImage;
-        public event ImagePositionHandler OnLastImage;
         #endregion
 
         #region Class Members
@@ -158,7 +152,7 @@ namespace TouchlessViewer
         /// </summary>
         public void Show()
         {
-            if (this.Images.Count > 0)
+            if (this._imageIndex < this.Images.Count)
             {
                 this._tempImage = Image.FromFile(this.Images[this._imageIndex]);
                 this.ScaleTempImage();
