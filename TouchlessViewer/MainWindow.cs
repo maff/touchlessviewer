@@ -83,9 +83,6 @@ namespace TouchlessViewer
 
         private void MainWindow_ResizeEnd(object sender, EventArgs e)
         {
-            this.Width = 800;
-            this.Height = 600;
-
             this.PositionPictureBox();
             this.Rotator.Show();
             this.pictureBoxImage.SizeMode = PictureBoxSizeMode.CenterImage;
