@@ -15,6 +15,7 @@ namespace TouchlessViewer
     public partial class MainWindow : Form
     {
         #region Loading of Basic Content
+
         private ImageRotator Rotator;
         public List<string> AllowedExtensions;
         private TouchlessManager tMgr = TouchlessManager.Instance;
@@ -22,6 +23,17 @@ namespace TouchlessViewer
         private ApplicationSettingsWindow applicationSettings = new ApplicationSettingsWindow();
         private CameraSettingsWindow cameraSettings = new CameraSettingsWindow();
         private AboutWindow aboutWindow = new AboutWindow();
+
+        /*private delegate void CursorStatusHandler(object o, CursorEventArgs e);
+        private event CursorStatusHandler OnLeftEnter;
+        private event CursorStatusHandler OnLeftLeave;
+        private event CursorStatusHandler OnRightEnter;
+        private event CursorStatusHandler OnRightLeave;*/
+
+        private double pictureBoxActiveArea = 0.2;
+
+        private bool leftActive = false;
+        private bool rightActive = false;
 
         public MainWindow(string[] args)
         {
@@ -37,6 +49,8 @@ namespace TouchlessViewer
             this.AllowedExtensions.Add(".bmp");
 
             this.Rotator = new ImageRotator();
+
+            //this.setEventHandlers();
 
             if (args.Length == 1 && args[0] != "")
             {
@@ -75,6 +89,37 @@ namespace TouchlessViewer
 
             this.Rotator.Show();
         }
+        #endregion
+
+        #region event handling
+        /*private void setEventHandlers()
+        {
+            this.OnLeftEnter += new CursorStatusHandler(MainWindow_OnLeftEnter);
+            this.OnLeftLeave += new CursorStatusHandler(MainWindow_OnLeftLeave);
+
+            this.OnRightEnter += new CursorStatusHandler(MainWindow_OnRightEnter);
+            this.OnRightLeave += new CursorStatusHandler(MainWindow_OnRightLeave);
+        }
+
+        void MainWindow_OnLeftEnter(object o, CursorEventArgs e)
+        {
+            this.toolStripStatusAreaPosition.Text = "Left Enter";
+        }
+
+        void MainWindow_OnLeftLeave(object o, CursorEventArgs e)
+        {
+            this.toolStripStatusAreaPosition.Text = "Left Leave";
+        }
+
+        void MainWindow_OnRightEnter(object o, CursorEventArgs e)
+        {
+            this.toolStripStatusAreaPosition.Text = "Right Enter";
+        }
+
+        void MainWindow_OnRightLeave(object o, CursorEventArgs e)
+        {
+            this.toolStripStatusAreaPosition.Text = "Right Leave";
+        }*/
         #endregion
 
         #region Resizing and positioning of MainWindow & PictureBox
@@ -232,34 +277,72 @@ namespace TouchlessViewer
             e.Graphics.DrawEllipse(new Pen(new SolidBrush(Color.Red)), markerLocation.X, markerLocation.Y, 15, 15);
             this.toolStripStatusCursorPosition.Text = "Cursor X: " + markerLocation.X + " Y: " + markerLocation.Y;
         }
-
+        //Thread wixer = new Thread();
         void _currentMarker_OnChange(object sender, TouchlessLib.MarkerEventArgs e)
         {
-            this.toolStripStatusMarkerPosition.Text = "Marker X: " + tMgr._currentMarker.CurrentData.X + " Y: " + tMgr._currentMarker.CurrentData.Y;
-
-            // causes PictureBox.Paint (refresh of the image)
-            this.pictureBoxImage.Invalidate();
-
-            // Check for Left Upper "Button"
-            double areaLUWidth = (this.pictureBoxImage.Width * 0.15); // 15% of the width left side
-            double areaLUHeigth = (this.pictureBoxImage.Height * 0.15); // 15% of the Height left side
-            double areaRUWidth = (this.pictureBoxImage.Width * 0.85); // 85% of the width right side
-
-            if (((this.tMgr._currentMarker.CurrentData.X >= 0) && (this.tMgr._currentMarker.CurrentData.X <= areaLUWidth)) &&
-                ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth)))
-            {
-                this.toolStripStatusAreaPosition.Text = "Left"; // indicates left Area
+            /*
                 Timer t1 = new Timer(); // Timer anlegen
                 t1.Interval = 100; // Intervall festlegen, hier 100 ms
                 t1.Tick += new EventHandler(t1_Tick); // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
-                t1.Start(); // Timer starten
+                t1.Start(); // Timer starten*/
+            Point markerLocation = this.getMarkerLocation();
+            double activeArea = this.pictureBoxImage.Width * this.pictureBoxActiveArea;
+
+
+            int position = 1; // 0 = left, 1 = center, 2 = right
+
+            if (markerLocation.X >= 0 && markerLocation.X < activeArea)
+            {
+                position = 0;
+                this.toolStripStatusAreaPosition.Text = "Left";
+            }
+            else if (markerLocation.X >= (this.pictureBoxImage.Width - activeArea) && markerLocation.X <= this.pictureBoxImage.Width)
+            {
+                position = 1;
+                this.toolStripStatusAreaPosition.Text = "Right";  
+            }
+            else
+            {
+                position = 2;
+                this.toolStripStatusAreaPosition.Text = "Center";
             }
 
-            if (((this.tMgr._currentMarker.CurrentData.X >= areaRUWidth) && (this.tMgr._currentMarker.CurrentData.X <= this.pictureBoxImage.Width)) &&
-                    ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth)))
+            if(position == 0) // Left Enter
             {
-                this.toolStripStatusAreaPosition.Text = "Right"; // indicates right Area
+                if (!this.leftActive)
+                {
+                    this.leftActive = true;
+                }
             }
+            
+            if(position == 2) // Right Enter
+            {
+                if (!this.rightActive)
+                {
+                    this.rightActive = true;
+                }
+            }
+
+            if(this.leftActive) // Left leave check
+            {
+                if (position != 0)
+                {
+                    this.leftActive = false;
+                }
+            }
+            
+            if(this.rightActive) // Right leave check
+            {
+                if (position != 2)
+                {
+                    this.rightActive = false;
+                }
+            }
+
+            this.toolStripStatusMarkerPosition.Text = "Marker X: " + tMgr._currentMarker.CurrentData.X + " Y: " + tMgr._currentMarker.CurrentData.Y;
+
+            // cause PictureBox.Paint
+            this.pictureBoxImage.Invalidate();
         }
 
         /*
