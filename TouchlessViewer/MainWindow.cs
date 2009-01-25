@@ -105,7 +105,7 @@ namespace TouchlessViewer
         {
             string filename;
             bool isValid = CheckDragAndDropItem(out filename, e);
-            
+
             if (isValid)
             {
                 FileInfo file = new FileInfo(filename);
@@ -121,11 +121,11 @@ namespace TouchlessViewer
         {
             string filename;
             bool isValid = CheckDragAndDropItem(out filename, e);
-            
+
             if (isValid)
                 e.Effect = DragDropEffects.Copy;
             else
-                e.Effect = DragDropEffects.None;            
+                e.Effect = DragDropEffects.None;
         }
 
         private bool CheckDragAndDropItem(out string filename, DragEventArgs e)
@@ -141,7 +141,7 @@ namespace TouchlessViewer
                     if ((data.Length == 1) && (data.GetValue(0) is String))
                     {
                         filename = ((string[])data)[0];
-                        if(this.AllowedExtensions.Contains(Path.GetExtension(filename).ToLower()))
+                        if (this.AllowedExtensions.Contains(Path.GetExtension(filename).ToLower()))
                         {
                             isValid = true;
                         }
@@ -169,14 +169,14 @@ namespace TouchlessViewer
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = "Please select a directory.";
 
-            if(this.Rotator != null)
+            if (this.Rotator != null)
                 dialog.SelectedPath = this.Rotator.ImagePath;
-          
+
             DialogResult dResult = dialog.ShowDialog();
             if (dResult == DialogResult.OK)
             {
                 this.loadRotator(dialog.SelectedPath);
-            }            
+            }
         }
 
         private void fileQuitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -215,7 +215,7 @@ namespace TouchlessViewer
                     this.tMgr._currentMarker = this.tMgr.Touchless.Markers[0];
                     this.tMgr._currentMarker.OnChange += new EventHandler<TouchlessLib.MarkerEventArgs>(_currentMarker_OnChange);
                     this.pictureBoxImage.Paint += new PaintEventHandler(pictureBoxImage_Paint);
-                    
+
                 }
             }
             else
@@ -227,7 +227,7 @@ namespace TouchlessViewer
         void pictureBoxImage_Paint(object sender, PaintEventArgs e)
         {
             Point markerLocation = this.getMarkerLocation();
-            
+
             // Draws an ellipse that indicates the current marker position on the picture
             e.Graphics.DrawEllipse(new Pen(new SolidBrush(Color.Red)), markerLocation.X, markerLocation.Y, 15, 15);
             this.toolStripStatusCursorPosition.Text = "Cursor X: " + markerLocation.X + " Y: " + markerLocation.Y;
@@ -238,35 +238,30 @@ namespace TouchlessViewer
             this.toolStripStatusMarkerPosition.Text = "Marker X: " + tMgr._currentMarker.CurrentData.X + " Y: " + tMgr._currentMarker.CurrentData.Y;
 
             // causes PictureBox.Paint (refresh of the image)
-            this.pictureBoxImage.Invalidate(); 
+            this.pictureBoxImage.Invalidate();
 
             // Check for Left Upper "Button"
-            double areaLUWidth = (this.pictureBoxImage.Width * 0.1); // 20% of the width left side
-            double areaLUHeigth = (this.pictureBoxImage.Height * 0.1); // 20% of the Height left side
-            double areaRUWidth = (this.pictureBoxImage.Width * 0.8); // 80% of the width right side
+            double areaLUWidth = (this.pictureBoxImage.Width * 0.15); // 15% of the width left side
+            double areaLUHeigth = (this.pictureBoxImage.Height * 0.15); // 15% of the Height left side
+            double areaRUWidth = (this.pictureBoxImage.Width * 0.85); // 85% of the width right side
 
             if (((this.tMgr._currentMarker.CurrentData.X >= 0) && (this.tMgr._currentMarker.CurrentData.X <= areaLUWidth)) &&
                 ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth)))
             {
-                /* this.toolStripStatusAreaPosition.Text = "Left"; // indicates left Area
-                   Timer t1 = new Timer(); // Timer anlegen
-                   t1.Interval = 100; // Intervall festlegen, hier 100 ms
-                   t1.Tick+=new EventHandler(t1_Tick); // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
-                   t1.Start(); // Timer starten
-               }*/
+                this.toolStripStatusAreaPosition.Text = "Left"; // indicates left Area
+                Timer t1 = new Timer(); // Timer anlegen
+                t1.Interval = 100; // Intervall festlegen, hier 100 ms
+                t1.Tick += new EventHandler(t1_Tick); // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
+                t1.Start(); // Timer starten
+            }
 
-                if (((this.tMgr._currentMarker.CurrentData.X >= areaRUWidth) && (this.tMgr._currentMarker.CurrentData.X <= this.pictureBoxImage.Width)) &&
-                        ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth)))
-                {
-                    this.toolStripStatusAreaPosition.Text = "Right"; // indicates right Area
-                }
-                /*
-                else
-                {
-                    this.toolStripStatusAreaPosition.Text = "Center";
-                }*/
+            if (((this.tMgr._currentMarker.CurrentData.X >= areaRUWidth) && (this.tMgr._currentMarker.CurrentData.X <= this.pictureBoxImage.Width)) &&
+                    ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth)))
+            {
+                this.toolStripStatusAreaPosition.Text = "Right"; // indicates right Area
             }
         }
+
         /*
         void t1_Tick(object sender, EventArgs e)
         {
@@ -279,8 +274,8 @@ namespace TouchlessViewer
         /// <returns></returns>
         private Point getMarkerLocation()
         {
-            double percentageX = (double) this.tMgr._currentMarker.CurrentData.X / (double)this.tMgr.Touchless.CurrentCamera.CaptureWidth;
-            double percentageY = (double) this.tMgr._currentMarker.CurrentData.Y / (double)this.tMgr.Touchless.CurrentCamera.CaptureHeight;
+            double percentageX = (double)this.tMgr._currentMarker.CurrentData.X / (double)this.tMgr.Touchless.CurrentCamera.CaptureWidth;
+            double percentageY = (double)this.tMgr._currentMarker.CurrentData.Y / (double)this.tMgr.Touchless.CurrentCamera.CaptureHeight;
 
             int positionX = (int)(this.pictureBoxImage.Width * percentageX);
             int positionY = (int)(this.pictureBoxImage.Height * percentageY);
