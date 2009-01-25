@@ -18,8 +18,6 @@ namespace TouchlessViewer
         {
             InitializeComponent();
 
-            loadCameraComboBox();
-            activateCamera();
         }
 
 
@@ -29,6 +27,11 @@ namespace TouchlessViewer
             {
                 Common.ShowError("No cameras found. Touchless functionality will be disabled.");
                 this.Close();
+            }
+            else
+            {
+                loadCameraComboBox();
+                activateCamera();
             }
         }
 

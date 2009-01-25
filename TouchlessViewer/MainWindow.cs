@@ -227,17 +227,31 @@ namespace TouchlessViewer
 
         void pictureBoxImage_Paint(object sender, PaintEventArgs e)
         {
+            float x = getInterpolationX();
+            float y = getInterpolationY();
             // creates a Pen
             Pen pen = new Pen(Color.Red);
-
+            
             // Draws an ellipse that indicates the current marker position on the picture
-            e.Graphics.DrawEllipse(pen, this.tMgr._currentMarker.CurrentData.X, this.tMgr._currentMarker.CurrentData.Y, 20, 20);
+            e.Graphics.DrawEllipse(pen, x, y, 20, 20);
         }
 
         void _currentMarker_OnChange(object sender, TouchlessLib.MarkerEventArgs e)
         {
             this.toolStripStatusMarkerPosition.Text = tMgr._currentMarker.CurrentData.X + " " + tMgr._currentMarker.CurrentData.Y;
             this.pictureBoxImage.Invalidate(); // causes PictureBox.Paint (refresh of the image)
+        }
+
+        private float getInterpolationX()
+        {
+            float x = this.tMgr.Touchless.CurrentCamera.CaptureWidth * (this.pictureBoxImage.Width / this.tMgr.Touchless.CurrentCamera.CaptureWidth);
+            return x;
+        }
+
+        private float getInterpolationY()
+        {
+            float y = this.tMgr.Touchless.CurrentCamera.CaptureHeight * (this.pictureBoxImage.Height / this.tMgr.Touchless.CurrentCamera.CaptureHeight);
+            return y;
         }
 
         private void updateStatusBar()
