@@ -35,6 +35,7 @@ namespace TouchlessViewer
             this.AllowedExtensions.Add(".png");
             this.AllowedExtensions.Add(".gif");
             this.AllowedExtensions.Add(".bmp");
+
             this.Rotator = new ImageRotator();
 
             if (args.Length == 1 && args[0] != "")
@@ -216,6 +217,7 @@ namespace TouchlessViewer
                     this.tMgr._currentMarker = this.tMgr.Touchless.Markers[0];
                     this.tMgr._currentMarker.OnChange += new EventHandler<TouchlessLib.MarkerEventArgs>(_currentMarker_OnChange);
                     this.pictureBoxImage.Paint += new PaintEventHandler(pictureBoxImage_Paint);
+                    
                 }
             }
             else
@@ -226,13 +228,13 @@ namespace TouchlessViewer
 
         void pictureBoxImage_Paint(object sender, PaintEventArgs e)
         {
-            int x = getInterpolationX(); // interpolated X value
-            int y = getInterpolationY(); // interpolated Y value
-            // creates a Pen
+            Point markerLocation = this.getMarkerLocation();
+
             Pen pen = new Pen(Color.Red);
-            this.toolStripStatusCursorPosition.Text = x + " " + y; // shows the interpolated marker values
+            this.toolStripStatusCursorPosition.Text = markerLocation.X + " " + markerLocation.Y;
+            
             // Draws an ellipse that indicates the current marker position on the picture
-            e.Graphics.DrawEllipse(pen, x, y, 20, 20);            
+            e.Graphics.DrawEllipse(pen, markerLocation.X, markerLocation.Y, 20, 20);            
         }
 
         void _currentMarker_OnChange(object sender, TouchlessLib.MarkerEventArgs e)
@@ -273,18 +275,19 @@ namespace TouchlessViewer
             // dieser Code wird ausgeführt, wenn der Timer abgelaufen ist
         }*/
 
-        private int getInterpolationX()
+        /// <summary>
+        /// Calculate marker position in pictureBox
+        /// </summary>
+        /// <returns></returns>
+        private Point getMarkerLocation()
         {
-            // calculates the interpolated Position of the X value
-            int x = this.tMgr._currentMarker.CurrentData.X * (this.pictureBoxImage.ClientSize.Width / this.tMgr.Touchless.CurrentCamera.CaptureWidth);
-            return x;
-        }
+            double percentageX = (double) this.tMgr._currentMarker.CurrentData.X / (double)this.tMgr.Touchless.CurrentCamera.CaptureWidth;
+            double percentageY = (double) this.tMgr._currentMarker.CurrentData.Y / (double)this.tMgr.Touchless.CurrentCamera.CaptureHeight;
 
-        private int getInterpolationY()
-        {
-            // calculates the interpolated Position of the Y value
-            int y = this.tMgr._currentMarker.CurrentData.Y * (this.pictureBoxImage.ClientSize.Height / this.tMgr.Touchless.CurrentCamera.CaptureHeight);
-            return y;
+            int positionX = (int)(this.pictureBoxImage.Width * percentageX);
+            int positionY = (int)(this.pictureBoxImage.Height * percentageY);
+
+            return new Point(positionX, positionY);
         }
 
         private void updateStatusBar()

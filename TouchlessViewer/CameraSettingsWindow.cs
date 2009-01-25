@@ -263,7 +263,9 @@ namespace TouchlessViewer
                     + "Left:      " + data.Bounds.Left + "#"
                     + "Right:     " + data.Bounds.Right + "#"
                     + "Top:       " + data.Bounds.Top + "#"
-                    + "Bottom:    " + data.Bounds.Bottom + "#";
+                    + "Bottom:    " + data.Bounds.Bottom + "#"
+                    + "CameraWidth " + this.tMgr.Touchless.CurrentCamera.CaptureWidth + "#"
+                    + "CameraHeight " + this.tMgr.Touchless.CurrentCamera.CaptureHeight + "+";
 
                 this.textBoxMarkerData.Lines = text.Split('#');
             }
