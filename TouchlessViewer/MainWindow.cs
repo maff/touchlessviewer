@@ -244,17 +244,18 @@ namespace TouchlessViewer
 
             // Check for Left Upper "Button"
             float areaLUWidth = (this.pictureBoxImage.Width * 0.2); //20% of the width left side
-            float areaLUHeigth = (this.pictureBoxImage.Height * 0.2); //20% of the Heigth left side
+            float areaLUHeigth = (this.pictureBoxImage.Height * 0.2); //20% of the Height left side
             float areaRUWidth = (this.pictureBoxImage.Width * 0.8); //80% of the width right side
-            float areaRUHeigth = (this.pictureBoxImage.Height * 0.8); //80% of the Heigth right side
 
             if (((this.tMgr._currentMarker.CurrentData.X >= 0) && (this.tMgr._currentMarker.CurrentData.X <= areaLUWidth)) && ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth)))
             {
                 //left
             }
-            else if((this.tMgr._currentMarker.CurrentData.X >= areaRUWidth) && (this.tMgr._currentMarker.CurrentData.X < this.pictureBoxImage.Width)) && ((this.tMgr._currentMarker.CurrentData.Y >= areaRUHeigth) && (this.tMgr._currentMarker.CurrentData.Y < this.pictureBoxImage.Height)))
+            else if(((this.tMgr._currentMarker.CurrentData.X >= areaRUWidth) && (this.tMgr._currentMarker.CurrentData.X < this.pictureBoxImage.Width)) &&
+                    ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth))
+                   )
             {
-                //right
+                this.Rotator.ShowNext();
             }
 
 
