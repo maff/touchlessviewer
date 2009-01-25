@@ -42,6 +42,7 @@
             this.toolStripCameraStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripMarkerStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusMarkerPosition = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusCursorPosition = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImage)).BeginInit();
             this.mainMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -138,7 +139,8 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripCameraStatus,
             this.toolStripMarkerStatus,
-            this.toolStripStatusMarkerPosition});
+            this.toolStripStatusMarkerPosition,
+            this.toolStripStatusCursorPosition});
             this.statusStrip.Location = new System.Drawing.Point(0, 692);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(803, 22);
@@ -158,6 +160,11 @@
             // 
             this.toolStripStatusMarkerPosition.Name = "toolStripStatusMarkerPosition";
             this.toolStripStatusMarkerPosition.Size = new System.Drawing.Size(0, 17);
+            // 
+            // toolStripStatusCursorPosition
+            // 
+            this.toolStripStatusCursorPosition.Name = "toolStripStatusCursorPosition";
+            this.toolStripStatusCursorPosition.Size = new System.Drawing.Size(0, 17);
             // 
             // MainWindow
             // 
@@ -202,6 +209,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripCameraStatus;
         private System.Windows.Forms.ToolStripStatusLabel toolStripMarkerStatus;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusMarkerPosition;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusCursorPosition;
     }
 }
 

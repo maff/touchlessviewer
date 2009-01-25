@@ -227,11 +227,11 @@ namespace TouchlessViewer
 
         void pictureBoxImage_Paint(object sender, PaintEventArgs e)
         {
-            float x = getInterpolationX();
-            float y = getInterpolationY();
+            float x = getInterpolationX(); // interpolated X value
+            float y = getInterpolationY(); // interpolated Y value
             // creates a Pen
             Pen pen = new Pen(Color.Red);
-            
+            this.toolStripStatusCursorPosition.Text = x + " " + y; // shows the interpolated marker values
             // Draws an ellipse that indicates the current marker position on the picture
             e.Graphics.DrawEllipse(pen, x, y, 20, 20);
         }
@@ -239,18 +239,21 @@ namespace TouchlessViewer
         void _currentMarker_OnChange(object sender, TouchlessLib.MarkerEventArgs e)
         {
             this.toolStripStatusMarkerPosition.Text = tMgr._currentMarker.CurrentData.X + " " + tMgr._currentMarker.CurrentData.Y;
+
             this.pictureBoxImage.Invalidate(); // causes PictureBox.Paint (refresh of the image)
         }
 
         private float getInterpolationX()
         {
-            float x = this.tMgr.Touchless.CurrentCamera.CaptureWidth * (this.pictureBoxImage.Width / this.tMgr.Touchless.CurrentCamera.CaptureWidth);
+            // calculates the interpolated Position of the X value
+            float x = this.tMgr._currentMarker.CurrentData.X * (this.pictureBoxImage.Width / this.tMgr.Touchless.CurrentCamera.CaptureWidth);
             return x;
         }
 
         private float getInterpolationY()
         {
-            float y = this.tMgr.Touchless.CurrentCamera.CaptureHeight * (this.pictureBoxImage.Height / this.tMgr.Touchless.CurrentCamera.CaptureHeight);
+            // calculates the interpolated Position of the X value
+            float y = this.tMgr._currentMarker.CurrentData.Y * (this.pictureBoxImage.Height / this.tMgr.Touchless.CurrentCamera.CaptureHeight);
             return y;
         }
 
