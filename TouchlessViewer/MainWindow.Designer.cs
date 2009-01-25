@@ -43,6 +43,7 @@
             this.toolStripMarkerStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusMarkerPosition = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusCursorPosition = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusAreaPosition = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImage)).BeginInit();
             this.mainMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -83,14 +84,14 @@
             // fileChangeDirectoryToolStripMenuItem
             // 
             this.fileChangeDirectoryToolStripMenuItem.Name = "fileChangeDirectoryToolStripMenuItem";
-            this.fileChangeDirectoryToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.fileChangeDirectoryToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.fileChangeDirectoryToolStripMenuItem.Text = "Change Directory";
             this.fileChangeDirectoryToolStripMenuItem.Click += new System.EventHandler(this.fileChangeDirectoryToolStripMenuItem_Click);
             // 
             // fileQuitToolStripMenuItem
             // 
             this.fileQuitToolStripMenuItem.Name = "fileQuitToolStripMenuItem";
-            this.fileQuitToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.fileQuitToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.fileQuitToolStripMenuItem.Text = "Quit";
             this.fileQuitToolStripMenuItem.Click += new System.EventHandler(this.fileQuitToolStripMenuItem_Click);
             // 
@@ -106,14 +107,14 @@
             // applicationSettingsToolStripMenuItem
             // 
             this.applicationSettingsToolStripMenuItem.Name = "applicationSettingsToolStripMenuItem";
-            this.applicationSettingsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.applicationSettingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.applicationSettingsToolStripMenuItem.Text = "Application";
             this.applicationSettingsToolStripMenuItem.Click += new System.EventHandler(this.applicationSettingsToolStripMenuItem_Click);
             // 
             // cameraSettingsToolStripMenuItem
             // 
             this.cameraSettingsToolStripMenuItem.Name = "cameraSettingsToolStripMenuItem";
-            this.cameraSettingsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.cameraSettingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.cameraSettingsToolStripMenuItem.Text = "Camera";
             this.cameraSettingsToolStripMenuItem.Click += new System.EventHandler(this.cameraSettingsToolStripMenuItem_Click);
             // 
@@ -128,7 +129,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -140,7 +141,8 @@
             this.toolStripCameraStatus,
             this.toolStripMarkerStatus,
             this.toolStripStatusMarkerPosition,
-            this.toolStripStatusCursorPosition});
+            this.toolStripStatusCursorPosition,
+            this.toolStripStatusAreaPosition});
             this.statusStrip.Location = new System.Drawing.Point(0, 692);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(803, 22);
@@ -165,6 +167,11 @@
             // 
             this.toolStripStatusCursorPosition.Name = "toolStripStatusCursorPosition";
             this.toolStripStatusCursorPosition.Size = new System.Drawing.Size(0, 17);
+            // 
+            // toolStripStatusAreaPosition
+            // 
+            this.toolStripStatusAreaPosition.Name = "toolStripStatusAreaPosition";
+            this.toolStripStatusAreaPosition.Size = new System.Drawing.Size(0, 17);
             // 
             // MainWindow
             // 
@@ -210,6 +217,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripMarkerStatus;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusMarkerPosition;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusCursorPosition;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusAreaPosition;
     }
 }
 

@@ -243,22 +243,20 @@ namespace TouchlessViewer
             this.pictureBoxImage.Invalidate(); // causes PictureBox.Paint (refresh of the image)
 
             // Check for Left Upper "Button"
-            float areaLUWidth = (this.pictureBoxImage.Width * 0.2); // 20% of the width left side
-            float areaLUHeigth = (this.pictureBoxImage.Height * 0.2); // 20% of the Height left side
-            float areaRUWidth = (this.pictureBoxImage.Width * 0.8); // 80% of the width right side
+            double areaLUWidth = (this.pictureBoxImage.Width * 0.2); // 20% of the width left side
+            double areaLUHeigth = (this.pictureBoxImage.Height * 0.2); // 20% of the Height left side
+            double areaRUWidth = (this.pictureBoxImage.Width * 0.8); // 80% of the width right side
 
             if (((this.tMgr._currentMarker.CurrentData.X >= 0) && (this.tMgr._currentMarker.CurrentData.X <= areaLUWidth)) && ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth)))
             {
-                // left
+                this.toolStripStatusAreaPosition.Text = "Left"; // indicates left Area
             }
             else if(((this.tMgr._currentMarker.CurrentData.X >= areaRUWidth) && (this.tMgr._currentMarker.CurrentData.X < this.pictureBoxImage.Width)) &&
                     ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth))
                    )
             {
-                // right
+                this.toolStripStatusAreaPosition.Text = "Right"; // indicates right Area
             }
-
-
         }
 
         private float getInterpolationX()
