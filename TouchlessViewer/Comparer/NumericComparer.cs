@@ -10,6 +10,7 @@ namespace TouchlessViewer
     {
         public NumericComparer()
         {
+            //Selbes Phänomen, leere Funktion?!
         }
 
         public int Compare(object x, object y)
