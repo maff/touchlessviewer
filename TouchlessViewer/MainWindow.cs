@@ -14,6 +14,7 @@ namespace TouchlessViewer
 {
     public partial class MainWindow : Form
     {
+        #region Loading of Basic Content
         private ImageRotator Rotator;
         public List<string> AllowedExtensions;
         private TouchlessManager tMgr = TouchlessManager.Instance;
@@ -34,6 +35,7 @@ namespace TouchlessViewer
             this.AllowedExtensions.Add(".png");
             this.AllowedExtensions.Add(".gif");
             this.AllowedExtensions.Add(".bmp");
+            this.Rotator = new ImageRotator();
 
             if (args.Length == 1 && args[0] != "")
             {
@@ -59,7 +61,6 @@ namespace TouchlessViewer
 
         private void loadRotator(string path, string filename)
         {
-            this.Rotator = new ImageRotator();
             this.Rotator.ImagePath = path;
             this.Rotator.AllowedExtensions = this.AllowedExtensions;
             this.Rotator.PictureBox = this.pictureBoxImage;
@@ -73,6 +74,7 @@ namespace TouchlessViewer
 
             this.Rotator.Show();
         }
+        #endregion
 
         #region Resizing and positioning of MainWindow & PictureBox
         private void MainWindow_ResizeBegin(object sender, EventArgs e)
@@ -224,14 +226,13 @@ namespace TouchlessViewer
 
         void pictureBoxImage_Paint(object sender, PaintEventArgs e)
         {
-            float x = getInterpolationX(); // interpolated X value
-            float y = getInterpolationY(); // interpolated Y value
+            int x = getInterpolationX(); // interpolated X value
+            int y = getInterpolationY(); // interpolated Y value
             // creates a Pen
             Pen pen = new Pen(Color.Red);
             this.toolStripStatusCursorPosition.Text = x + " " + y; // shows the interpolated marker values
             // Draws an ellipse that indicates the current marker position on the picture
-            e.Graphics.DrawEllipse(pen, x, y, 20, 20);
-            
+            e.Graphics.DrawEllipse(pen, x, y, 20, 20);            
         }
 
         void _currentMarker_OnChange(object sender, TouchlessLib.MarkerEventArgs e)
@@ -240,33 +241,49 @@ namespace TouchlessViewer
             this.pictureBoxImage.Invalidate(); // causes PictureBox.Paint (refresh of the image)
 
             // Check for Left Upper "Button"
-            double areaLUWidth = (this.pictureBoxImage.Width * 0.2); // 20% of the width left side
-            double areaLUHeigth = (this.pictureBoxImage.Height * 0.2); // 20% of the Height left side
+            double areaLUWidth = (this.pictureBoxImage.Width * 0.1); // 20% of the width left side
+            double areaLUHeigth = (this.pictureBoxImage.Height * 0.1); // 20% of the Height left side
             double areaRUWidth = (this.pictureBoxImage.Width * 0.8); // 80% of the width right side
 
-            if (((this.tMgr._currentMarker.CurrentData.X >= 0) && (this.tMgr._currentMarker.CurrentData.X <= areaLUWidth)) && ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth)))
+            if (((this.tMgr._currentMarker.CurrentData.X >= 0) && (this.tMgr._currentMarker.CurrentData.X <= areaLUWidth)) &&
+                ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth)))
             {
-                this.toolStripStatusAreaPosition.Text = "Left"; // indicates left Area
-            }
-            else if(((this.tMgr._currentMarker.CurrentData.X >= areaRUWidth) && (this.tMgr._currentMarker.CurrentData.X < this.pictureBoxImage.Width)) &&
-                    ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth))
-                   )
-            {
-                this.toolStripStatusAreaPosition.Text = "Right"; // indicates right Area
+                /* this.toolStripStatusAreaPosition.Text = "Left"; // indicates left Area
+                   Timer t1 = new Timer(); // Timer anlegen
+                   t1.Interval = 100; // Intervall festlegen, hier 100 ms
+                   t1.Tick+=new EventHandler(t1_Tick); // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
+                   t1.Start(); // Timer starten
+               }*/
+
+                if (((this.tMgr._currentMarker.CurrentData.X >= areaRUWidth) && (this.tMgr._currentMarker.CurrentData.X <= this.pictureBoxImage.Width)) &&
+                        ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth)))
+                {
+                    this.toolStripStatusAreaPosition.Text = "Right"; // indicates right Area
+                }
+                /*
+                else
+                {
+                    this.toolStripStatusAreaPosition.Text = "Center";
+                }*/
             }
         }
+        /*
+        void t1_Tick(object sender, EventArgs e)
+        {
+            // dieser Code wird ausgeführt, wenn der Timer abgelaufen ist
+        }*/
 
-        private float getInterpolationX()
+        private int getInterpolationX()
         {
             // calculates the interpolated Position of the X value
-            float x = this.tMgr._currentMarker.CurrentData.X * (this.pictureBoxImage.Width / this.tMgr.Touchless.CurrentCamera.CaptureWidth);
+            int x = this.tMgr._currentMarker.CurrentData.X * (this.pictureBoxImage.ClientSize.Width / this.tMgr.Touchless.CurrentCamera.CaptureWidth);
             return x;
         }
 
-        private float getInterpolationY()
+        private int getInterpolationY()
         {
-            // calculates the interpolated Position of the X value
-            float y = this.tMgr._currentMarker.CurrentData.Y * (this.pictureBoxImage.Height / this.tMgr.Touchless.CurrentCamera.CaptureHeight);
+            // calculates the interpolated Position of the Y value
+            int y = this.tMgr._currentMarker.CurrentData.Y * (this.pictureBoxImage.ClientSize.Height / this.tMgr.Touchless.CurrentCamera.CaptureHeight);
             return y;
         }
 
@@ -290,8 +307,6 @@ namespace TouchlessViewer
                 this.toolStripMarkerStatus.Text = "No Markers set.";
             }
         }
-
-
         #endregion
     }
 }
