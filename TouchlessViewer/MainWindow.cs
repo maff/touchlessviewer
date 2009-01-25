@@ -184,8 +184,6 @@ namespace TouchlessViewer
             Application.Exit();
         }
 
-
-
         private void applicationSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.applicationSettings.ShowDialog();
@@ -229,18 +227,18 @@ namespace TouchlessViewer
         void pictureBoxImage_Paint(object sender, PaintEventArgs e)
         {
             Point markerLocation = this.getMarkerLocation();
-
-            Pen pen = new Pen(Color.Red);
-            this.toolStripStatusCursorPosition.Text = markerLocation.X + " " + markerLocation.Y;
             
             // Draws an ellipse that indicates the current marker position on the picture
-            e.Graphics.DrawEllipse(pen, markerLocation.X, markerLocation.Y, 20, 20);            
+            e.Graphics.DrawEllipse(new Pen(new SolidBrush(Color.Red)), markerLocation.X, markerLocation.Y, 15, 15);
+            this.toolStripStatusCursorPosition.Text = "Cursor X: " + markerLocation.X + " Y: " + markerLocation.Y;
         }
 
         void _currentMarker_OnChange(object sender, TouchlessLib.MarkerEventArgs e)
         {
-            this.toolStripStatusMarkerPosition.Text = tMgr._currentMarker.CurrentData.X + " " + tMgr._currentMarker.CurrentData.Y;
-            this.pictureBoxImage.Invalidate(); // causes PictureBox.Paint (refresh of the image)
+            this.toolStripStatusMarkerPosition.Text = "Marker X: " + tMgr._currentMarker.CurrentData.X + " Y: " + tMgr._currentMarker.CurrentData.Y;
+
+            // causes PictureBox.Paint (refresh of the image)
+            this.pictureBoxImage.Invalidate(); 
 
             // Check for Left Upper "Button"
             double areaLUWidth = (this.pictureBoxImage.Width * 0.1); // 20% of the width left side

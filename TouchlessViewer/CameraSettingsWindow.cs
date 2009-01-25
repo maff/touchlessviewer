@@ -137,8 +137,6 @@ namespace TouchlessViewer
             }
         }
 
-
-
         private void buttonAddMarker_Click(object sender, EventArgs e)
         {
             bool switchState = true;
@@ -152,6 +150,10 @@ namespace TouchlessViewer
                 buttonAddMarker.Text = "Add Marker";
                 removeMarker();
                 switchState = false;
+            }
+            else if (this.tMgr._addingMarker)
+            {
+                buttonAddMarker.Text = "Add Marker";
             }
 
             if(switchState)
@@ -169,11 +171,6 @@ namespace TouchlessViewer
             this.numericUpDownThreshold.Value = 0;
             this.textBoxMarkerData.Lines = null;
         }
-
-
-
-
-
 
         private void pictureBoxCamera_MouseDown(object sender, MouseEventArgs e)
         {
