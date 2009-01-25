@@ -234,13 +234,30 @@ namespace TouchlessViewer
             this.toolStripStatusCursorPosition.Text = x + " " + y; // shows the interpolated marker values
             // Draws an ellipse that indicates the current marker position on the picture
             e.Graphics.DrawEllipse(pen, x, y, 20, 20);
+            
         }
 
         void _currentMarker_OnChange(object sender, TouchlessLib.MarkerEventArgs e)
         {
             this.toolStripStatusMarkerPosition.Text = tMgr._currentMarker.CurrentData.X + " " + tMgr._currentMarker.CurrentData.Y;
-
             this.pictureBoxImage.Invalidate(); // causes PictureBox.Paint (refresh of the image)
+
+            // Check for Left Upper "Button"
+            float areaLUWidth = (this.pictureBoxImage.Width * 0.2); //20% of the width left side
+            float areaLUHeigth = (this.pictureBoxImage.Height * 0.2); //20% of the Heigth left side
+            float areaRUWidth = (this.pictureBoxImage.Width * 0.8); //80% of the width right side
+            float areaRUHeigth = (this.pictureBoxImage.Height * 0.8); //80% of the Heigth right side
+
+            if (((this.tMgr._currentMarker.CurrentData.X >= 0) && (this.tMgr._currentMarker.CurrentData.X <= areaLUWidth)) && ((this.tMgr._currentMarker.CurrentData.Y >= 0) && (this.tMgr._currentMarker.CurrentData.Y <= areaLUHeigth)))
+            {
+                //left
+            }
+            else if((this.tMgr._currentMarker.CurrentData.X >= areaRUWidth) && (this.tMgr._currentMarker.CurrentData.X < this.pictureBoxImage.Width)) && ((this.tMgr._currentMarker.CurrentData.Y >= areaRUHeigth) && (this.tMgr._currentMarker.CurrentData.Y < this.pictureBoxImage.Height)))
+            {
+                //right
+            }
+
+
         }
 
         private float getInterpolationX()
@@ -255,6 +272,15 @@ namespace TouchlessViewer
             // calculates the interpolated Position of the X value
             float y = this.tMgr._currentMarker.CurrentData.Y * (this.pictureBoxImage.Height / this.tMgr.Touchless.CurrentCamera.CaptureHeight);
             return y;
+        }
+
+        private float getAreaLeftUpper()
+        {
+            // calculates the left upper Area where the left-button should be placed
+            float areaLUWidth = (this.pictureBoxImage.Width * 0.2); //20% of the width
+            float areaLUHeigth = (this.pictureBoxImage.Height * 0.2); //20% of the Heigth
+            
+            // -> area = 0 < X < areaLUWidth && 0 < Y < areaLUHeigth
         }
 
         private void updateStatusBar()
