@@ -274,15 +274,6 @@ namespace TouchlessViewer
             return y;
         }
 
-        private float getAreaLeftUpper()
-        {
-            // calculates the left upper Area where the left-button should be placed
-            float areaLUWidth = (this.pictureBoxImage.Width * 0.2); //20% of the width
-            float areaLUHeigth = (this.pictureBoxImage.Height * 0.2); //20% of the Heigth
-            
-            // -> area = 0 < X < areaLUWidth && 0 < Y < areaLUHeigth
-        }
-
         private void updateStatusBar()
         {
             if (this.tMgr.Touchless.CurrentCamera != null)
