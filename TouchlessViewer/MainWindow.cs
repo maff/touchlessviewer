@@ -83,6 +83,9 @@ namespace TouchlessViewer
 
         private void MainWindow_ResizeEnd(object sender, EventArgs e)
         {
+            this.Width = 800;
+            this.Height = 600;
+
             this.PositionPictureBox();
             this.Rotator.Show();
             this.pictureBoxImage.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -212,7 +215,7 @@ namespace TouchlessViewer
                 if (this.tMgr.Touchless.Markers[0] != this.tMgr._currentMarker)
                 {
                     this.tMgr._currentMarker = this.tMgr.Touchless.Markers[0];
-                    //this.tMgr._currentMarker.OnChange += new EventHandler<TouchlessLib.MarkerEventArgs>(_currentMarker_OnChange);
+                    this.tMgr._currentMarker.OnChange += new EventHandler<TouchlessLib.MarkerEventArgs>(_currentMarker_OnChange);
                     this.pictureBoxImage.Paint += new PaintEventHandler(pictureBoxImage_Paint);
                 }
             }
@@ -224,14 +227,17 @@ namespace TouchlessViewer
 
         void pictureBoxImage_Paint(object sender, PaintEventArgs e)
         {
-            //Pen pen = new Pen(Brushes.Red, 1);
-            //e.Graphics.DrawEllipse(pen, this.tMgr._markerCenter.X - this.tMgr._markerRadius, this.tMgr._markerCenter.Y - this.tMgr._markerRadius, 2 * this.tMgr._markerRadius, 2 * this.tMgr._markerRadius);
-            //e.Graphics.DrawEllipse(pen, this.tMgr._currentMarker.CurrentData.X, this.tMgr._currentMarker.CurrentData.Y, 20, 20);
+            // creates a Pen
+            Pen pen = new Pen(Color.Red);
+
+            // Draws an ellipse that indicates the current marker position on the picture
+            e.Graphics.DrawEllipse(pen, this.tMgr._currentMarker.CurrentData.X, this.tMgr._currentMarker.CurrentData.Y, 20, 20);
         }
 
         void _currentMarker_OnChange(object sender, TouchlessLib.MarkerEventArgs e)
         {
-            //throw new NotImplementedException();
+            this.toolStripStatusMarkerPosition.Text = tMgr._currentMarker.CurrentData.X + " " + tMgr._currentMarker.CurrentData.Y;
+            this.pictureBoxImage.Invalidate(); // causes PictureBox.Paint (refresh of the image)
         }
 
         private void updateStatusBar()

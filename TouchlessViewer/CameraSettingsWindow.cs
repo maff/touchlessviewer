@@ -25,7 +25,7 @@ namespace TouchlessViewer
 
         private void CameraSettingsWindow_Load(object sender, EventArgs e)
         {
-            if (tMgr.checkCameras())
+            if (!tMgr.checkCameras())
             {
                 Common.ShowError("No cameras found. Touchless functionality will be disabled.");
                 this.Close();
