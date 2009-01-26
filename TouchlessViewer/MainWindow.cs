@@ -29,7 +29,7 @@ namespace TouchlessViewer
         /// </summary>
         delegate void RotatorSwitch();
 
-        private double pictureBoxActiveArea = 0.2;
+        private double pictureBoxActiveArea = 0.1;
 
         private bool leftActive = false;
         private bool rightActive = false;
@@ -325,9 +325,11 @@ namespace TouchlessViewer
         private void pictureBoxImage_Paint(object sender, PaintEventArgs e)
         {
             Point markerLocation = this.getMarkerLocation();
-
+            Icon lol = new Icon("cursor.ico", 32, 32);
+            
             // Draws an ellipse that indicates the current marker position on the picture
-            e.Graphics.DrawEllipse(new Pen(new SolidBrush(Color.Red)), markerLocation.X, markerLocation.Y, 15, 15);
+            e.Graphics.DrawIcon(lol, markerLocation.X, markerLocation.Y);
+
             this.toolStripStatusCursorPosition.Text = "Cursor X: " + markerLocation.X + " Y: " + markerLocation.Y;
         }
 
@@ -397,7 +399,7 @@ namespace TouchlessViewer
                 }
             }
 
-            this.toolStripStatusMarkerPosition.Text = "Marker X: " + tMgr._currentMarker.CurrentData.X + " Y: " + tMgr._currentMarker.CurrentData.Y;
+            //this.toolStripStatusMarkerPosition.Text = "Marker X: " + tMgr._currentMarker.CurrentData.X + " Y: " + tMgr._currentMarker.CurrentData.Y;
 
             // cause PictureBox.Paint
             this.pictureBoxImage.Invalidate();
