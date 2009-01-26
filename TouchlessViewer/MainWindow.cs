@@ -23,6 +23,11 @@ namespace TouchlessViewer
         private ApplicationSettingsWindow applicationSettings = new ApplicationSettingsWindow();
         private CameraSettingsWindow cameraSettings = new CameraSettingsWindow();
         private AboutWindow aboutWindow = new AboutWindow();
+        
+        /// <summary>
+        /// Used to switch images on Marker area entry
+        /// </summary>
+        delegate void RotatorSwitch();
 
         private double pictureBoxActiveArea = 0.2;
 
@@ -56,16 +61,29 @@ namespace TouchlessViewer
             this.updateStatusBar();
         }
 
+        /// <summary>
+        /// Change Form title
+        /// </summary>
+        /// <param name="title"></param>
         private void ChangeTitle(string title)
         {
             this.Text = "TouchLessViewer - " + title;
         }
 
+        /// <summary>
+        /// Load the image rotator
+        /// </summary>
+        /// <param name="path">image path</param>
         private void loadRotator(string path)
         {
             this.loadRotator(path, null);
         }
 
+        /// <summary>
+        /// Load the image rotator
+        /// </summary>
+        /// <param name="path">image path</param>
+        /// <param name="filename">selected image filename</param>
         private void loadRotator(string path, string filename)
         {
             this.Rotator.ImagePath = path;
@@ -85,12 +103,21 @@ namespace TouchlessViewer
         #endregion
 
         #region Resizing and positioning of MainWindow & PictureBox
+        /// <summary>
+        /// avoid "jumping around" when image is centered before resizing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_ResizeBegin(object sender, EventArgs e)
-        {
-            // avoid "jumping around" when image is centered before resizing
+        { 
             this.pictureBoxImage.SizeMode = PictureBoxSizeMode.Normal;
         }
 
+        /// <summary>
+        /// Resize pictureBox and containing image on MainWindow_Resize
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_ResizeEnd(object sender, EventArgs e)
         {
             this.PositionPictureBox();
@@ -98,6 +125,9 @@ namespace TouchlessViewer
             this.pictureBoxImage.SizeMode = PictureBoxSizeMode.CenterImage;
         }
 
+        /// <summary>
+        /// Resize picturebox on MainWindow_Resize
+        /// </summary>
         private void PositionPictureBox()
         {
             this.pictureBoxImage.Width = this.ClientSize.Width;
@@ -108,6 +138,11 @@ namespace TouchlessViewer
         #endregion
 
         #region Drag&Drop
+        /// <summary>
+        /// Load rotator with dragged item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_DragDrop(object sender, DragEventArgs e)
         {
             string filename;
@@ -124,6 +159,11 @@ namespace TouchlessViewer
             }
         }
 
+        /// <summary>
+        /// Change mouse cursor on DragEnter
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_DragEnter(object sender, DragEventArgs e)
         {
             string filename;
@@ -135,6 +175,12 @@ namespace TouchlessViewer
                 e.Effect = DragDropEffects.None;
         }
 
+        /// <summary>
+        /// Check if Drag&Drop file is valid
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
         private bool CheckDragAndDropItem(out string filename, DragEventArgs e)
         {
             filename = String.Empty;
@@ -161,6 +207,11 @@ namespace TouchlessViewer
         #endregion
 
         #region Keyboard events
+        /// <summary>
+        /// Switch image on KeyDown
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Left || e.KeyCode == Keys.P || e.KeyCode == Keys.B)
@@ -170,62 +221,12 @@ namespace TouchlessViewer
         }
         #endregion
 
-        #region Threading to fade pictures
-
-        /*Thread img_left = new Thread(new ThreadStart(Image_Left));
-        Thread img_right = new Thread(new ThreadStart(Image_Right));*/
-
-        Thread shiftThread;
-        
-        /*private void Image_Left()
-        {
-            Thread.Sleep(200);
-            this.Rotator.ShowNext();
-        }
-
-        private static void Image_Right()
-        {
-            Thread.Sleep(200);
-            this.Rotator.ShowPrevious();
-        }*/
-
-        /*private void StartThread(int position)
-        {
-            if (position == 0)
-            {
-                //img_left.Start();
-                this.shiftThread = new Thread(new ThreadStart(this.Rotator.ThreadTest));
-
-            }
-
-            else if (position == 2)
-            {
-                img_right.Start();
-            }
-        }*/
-
-        /*private void StopThread(int position)
-        {
-            if (position == 0)
-            {
-                if(img_left.ThreadState & ThreadState.Running == 1)
-                {
-                    img_left.Abort();
-                }
-            }
-
-            else if (position == 2)
-            {
-                if (img_right.ThreadState & ThreadState.Running == 1)
-                {
-                    img_right.Abort();
-                }
-            }
-        }*/
-
-        #endregion
-
         #region Mainmenu
+        /// <summary>
+        /// Open file dialog and reload rotator
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fileChangeDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
@@ -241,33 +242,63 @@ namespace TouchlessViewer
             }
         }
 
+        /// <summary>
+        /// Close application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fileQuitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
+        /// <summary>
+        /// Show application settings
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void applicationSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.applicationSettings.ShowDialog();
         }
 
+        /// <summary>
+        /// Show camera settings
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cameraSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.cameraSettings.FormClosed += new FormClosedEventHandler(cameraSettings_FormClosed);
             this.cameraSettings.ShowDialog();
         }
 
+        /// <summary>
+        /// Show about box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.aboutWindow.ShowDialog();
         }
+        #endregion
 
+        #region Cursor Drawing and Marker Eventhandling
+        /// <summary>
+        /// Bind/Unbind events to marker when CameraSettingsWindow closes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cameraSettings_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.setTouchlessEvents();
             this.updateStatusBar();
         }
 
+        /// <summary>
+        /// Bind/Unbind events to marker
+        /// </summary>
         private void setTouchlessEvents()
         {
             if (this.tMgr.Touchless.CurrentCamera != null && this.tMgr.Touchless.MarkerCount == 1)
@@ -277,7 +308,6 @@ namespace TouchlessViewer
                     this.tMgr._currentMarker = this.tMgr.Touchless.Markers[0];
                     this.tMgr._currentMarker.OnChange += new EventHandler<TouchlessLib.MarkerEventArgs>(_currentMarker_OnChange);
                     this.pictureBoxImage.Paint += new PaintEventHandler(pictureBoxImage_Paint);
-
                 }
             }
             else
@@ -285,10 +315,13 @@ namespace TouchlessViewer
                 this.pictureBoxImage.Paint -= new PaintEventHandler(pictureBoxImage_Paint);
             }
         }
-        #endregion
-
-        #region wichtig
-        void pictureBoxImage_Paint(object sender, PaintEventArgs e)
+        
+        /// <summary>
+        /// Draw cursor on pictureBoxImage_Paint
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBoxImage_Paint(object sender, PaintEventArgs e)
         {
             Point markerLocation = this.getMarkerLocation();
 
@@ -297,14 +330,15 @@ namespace TouchlessViewer
             this.toolStripStatusCursorPosition.Text = "Cursor X: " + markerLocation.X + " Y: " + markerLocation.Y;
         }
 
-
-        delegate void RotatorNext();
-
-        void _currentMarker_OnChange(object sender, TouchlessLib.MarkerEventArgs e)
+        /// <summary>
+        /// Eventhandler for updates on Marker position
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _currentMarker_OnChange(object sender, TouchlessLib.MarkerEventArgs e)
         {
             Point markerLocation = this.getMarkerLocation();
             double activeArea = this.pictureBoxImage.Width * this.pictureBoxActiveArea;
-
 
             int position = 1; // 0 = left, 1 = center, 2 = right
 
@@ -322,36 +356,39 @@ namespace TouchlessViewer
             {
                 position = 1; // Ellipse is in Right Area
                 this.toolStripStatusAreaPosition.Text = "Center";
-            }            
-            
+            }
 
-            if(position == 0) // Left Enter
+            // Left Enter
+            if(position == 0) 
             {
                 if (!this.leftActive)
                 {
                     this.leftActive = true;
-                    pictureBoxImage.Invoke(new RotatorNext(this.Rotator.ShowPrevious));
+                    pictureBoxImage.Invoke(new RotatorSwitch(this.Rotator.ShowPrevious));
                 }
             }
-            
-            if(position == 2) // Right Enter
+
+            // Right Enter
+            if(position == 2)
             {
                 if (!this.rightActive)
                 {
                     this.rightActive = true;
-                    pictureBoxImage.Invoke(new RotatorNext(this.Rotator.ShowNext));
+                    pictureBoxImage.Invoke(new RotatorSwitch(this.Rotator.ShowNext));
                 }
             }
 
-            if(this.leftActive) // Left leave check
+            // Left leave
+            if(this.leftActive) 
             {
                 if (position != 0)
                 {
                     this.leftActive = false;
                 }
             }
-            
-            if(this.rightActive) // Right leave check
+
+            // Right leave
+            if(this.rightActive)
             {
                 if (position != 2)
                 {
@@ -380,6 +417,9 @@ namespace TouchlessViewer
             return new Point(positionX, positionY);
         }
 
+        /// <summary>
+        /// Update status bar
+        /// </summary>
         private void updateStatusBar()
         {
             if (this.tMgr.Touchless.CurrentCamera != null)
