@@ -39,7 +39,7 @@
             this.aboutBox.Name = "aboutBox";
             this.aboutBox.Size = new System.Drawing.Size(259, 210);
             this.aboutBox.TabIndex = 0;
-            this.aboutBox.Text = "Touchlessviewer v 0.2\r\n\r\ncoded by\r\n\r\nmaff, The Storm, Knox, Heathcliff & Aeroange" +
+            this.aboutBox.Text = "Touchlessviewer v 0.3\r\n\r\ncoded by\r\n\r\nmaff, The Storm, Knox, Heathcliff & Aeroange" +
                 "l";
             // 
             // buttonOK

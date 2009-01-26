@@ -231,6 +231,7 @@ namespace TouchlessViewer
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             dialog.Description = "Please select a directory.";
+            dialog.ShowNewFolderButton = false;
 
             if (this.Rotator != null)
                 dialog.SelectedPath = this.Rotator.ImagePath;
