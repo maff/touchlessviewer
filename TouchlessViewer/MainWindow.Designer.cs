@@ -112,7 +112,7 @@
             // cameraSettingsToolStripMenuItem
             // 
             this.cameraSettingsToolStripMenuItem.Name = "cameraSettingsToolStripMenuItem";
-            this.cameraSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cameraSettingsToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.cameraSettingsToolStripMenuItem.Text = "Camera";
             this.cameraSettingsToolStripMenuItem.Click += new System.EventHandler(this.cameraSettingsToolStripMenuItem_Click);
             // 
@@ -184,6 +184,7 @@
             this.MainMenuStrip = this.mainMenuStrip;
             this.Name = "MainWindow";
             this.ResizeBegin += new System.EventHandler(this.MainWindow_ResizeBegin);
+            this.SizeChanged += new System.EventHandler(this.MainWindow_SizeChanged);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainWindow_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainWindow_DragEnter);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);

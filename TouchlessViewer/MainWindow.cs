@@ -21,6 +21,8 @@ namespace TouchlessViewer
 
         private CameraSettingsWindow cameraSettings = new CameraSettingsWindow();
         private AboutWindow aboutWindow = new AboutWindow();
+
+        private FormWindowState previousState;
         
         /// <summary>
         /// Used to switch images on Marker area entry
@@ -121,6 +123,22 @@ namespace TouchlessViewer
             this.PositionPictureBox();
             this.Rotator.Show();
             this.pictureBoxImage.SizeMode = PictureBoxSizeMode.CenterImage;
+        }
+
+        /// <summary>
+        /// Also handle maximizing of form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_SizeChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState != this.previousState)
+            {
+                this.PositionPictureBox();
+                this.Rotator.Show();
+            }
+
+            this.previousState = this.WindowState;
         }
 
         /// <summary>
