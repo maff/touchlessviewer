@@ -41,7 +41,6 @@
             this.fileChangeDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileQuitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.applicationSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cameraSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,37 +90,29 @@
             // fileChangeDirectoryToolStripMenuItem
             // 
             this.fileChangeDirectoryToolStripMenuItem.Name = "fileChangeDirectoryToolStripMenuItem";
-            this.fileChangeDirectoryToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.fileChangeDirectoryToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.fileChangeDirectoryToolStripMenuItem.Text = "Change Directory";
             this.fileChangeDirectoryToolStripMenuItem.Click += new System.EventHandler(this.fileChangeDirectoryToolStripMenuItem_Click);
             // 
             // fileQuitToolStripMenuItem
             // 
             this.fileQuitToolStripMenuItem.Name = "fileQuitToolStripMenuItem";
-            this.fileQuitToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.fileQuitToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.fileQuitToolStripMenuItem.Text = "Quit";
             this.fileQuitToolStripMenuItem.Click += new System.EventHandler(this.fileQuitToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.applicationSettingsToolStripMenuItem,
             this.cameraSettingsToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
-            // applicationSettingsToolStripMenuItem
-            // 
-            this.applicationSettingsToolStripMenuItem.Name = "applicationSettingsToolStripMenuItem";
-            this.applicationSettingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.applicationSettingsToolStripMenuItem.Text = "Application";
-            this.applicationSettingsToolStripMenuItem.Click += new System.EventHandler(this.applicationSettingsToolStripMenuItem_Click);
-            // 
             // cameraSettingsToolStripMenuItem
             // 
             this.cameraSettingsToolStripMenuItem.Name = "cameraSettingsToolStripMenuItem";
-            this.cameraSettingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.cameraSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.cameraSettingsToolStripMenuItem.Text = "Camera";
             this.cameraSettingsToolStripMenuItem.Click += new System.EventHandler(this.cameraSettingsToolStripMenuItem_Click);
             // 
@@ -136,7 +127,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -216,7 +207,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem fileChangeDirectoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fileQuitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem applicationSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cameraSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip;
