@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.Windows.Media.Imaging;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using System.IO;
 
@@ -93,6 +94,15 @@ namespace TouchlessViewer
             set { this._formTitle = value; }
         }
         #endregion
+
+        public void ThreadTest()
+        {
+            while (true)
+            {
+                Console.WriteLine("thread test");
+                Thread.Sleep(200);
+            }
+        }
 
         public ImageRotator()
         {

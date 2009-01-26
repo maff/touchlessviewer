@@ -24,12 +24,6 @@ namespace TouchlessViewer
         private CameraSettingsWindow cameraSettings = new CameraSettingsWindow();
         private AboutWindow aboutWindow = new AboutWindow();
 
-        /*private delegate void CursorStatusHandler(object o, CursorEventArgs e);
-        private event CursorStatusHandler OnLeftEnter;
-        private event CursorStatusHandler OnLeftLeave;
-        private event CursorStatusHandler OnRightEnter;
-        private event CursorStatusHandler OnRightLeave;*/
-
         private double pictureBoxActiveArea = 0.2;
 
         private bool leftActive = false;
@@ -49,8 +43,6 @@ namespace TouchlessViewer
             this.AllowedExtensions.Add(".bmp");
 
             this.Rotator = new ImageRotator();
-
-            //this.setEventHandlers();
 
             if (args.Length == 1 && args[0] != "")
             {
@@ -88,38 +80,8 @@ namespace TouchlessViewer
                 this.Rotator.FindByFilename(filename);
 
             this.Rotator.Show();
+
         }
-        #endregion
-
-        #region event handling
-        /*private void setEventHandlers()
-        {
-            this.OnLeftEnter += new CursorStatusHandler(MainWindow_OnLeftEnter);
-            this.OnLeftLeave += new CursorStatusHandler(MainWindow_OnLeftLeave);
-
-            this.OnRightEnter += new CursorStatusHandler(MainWindow_OnRightEnter);
-            this.OnRightLeave += new CursorStatusHandler(MainWindow_OnRightLeave);
-        }
-
-        void MainWindow_OnLeftEnter(object o, CursorEventArgs e)
-        {
-            this.toolStripStatusAreaPosition.Text = "Left Enter";
-        }
-
-        void MainWindow_OnLeftLeave(object o, CursorEventArgs e)
-        {
-            this.toolStripStatusAreaPosition.Text = "Left Leave";
-        }
-
-        void MainWindow_OnRightEnter(object o, CursorEventArgs e)
-        {
-            this.toolStripStatusAreaPosition.Text = "Right Enter";
-        }
-
-        void MainWindow_OnRightLeave(object o, CursorEventArgs e)
-        {
-            this.toolStripStatusAreaPosition.Text = "Right Leave";
-        }*/
         #endregion
 
         #region Resizing and positioning of MainWindow & PictureBox
@@ -208,6 +170,61 @@ namespace TouchlessViewer
         }
         #endregion
 
+        #region Threading to fade pictures
+
+        /*Thread img_left = new Thread(new ThreadStart(Image_Left));
+        Thread img_right = new Thread(new ThreadStart(Image_Right));*/
+
+        Thread shiftThread;
+        
+        /*private void Image_Left()
+        {
+            Thread.Sleep(200);
+            this.Rotator.ShowNext();
+        }
+
+        private static void Image_Right()
+        {
+            Thread.Sleep(200);
+            this.Rotator.ShowPrevious();
+        }*/
+
+        /*private void StartThread(int position)
+        {
+            if (position == 0)
+            {
+                //img_left.Start();
+                this.shiftThread = new Thread(new ThreadStart(this.Rotator.ThreadTest));
+
+            }
+
+            else if (position == 2)
+            {
+                img_right.Start();
+            }
+        }*/
+
+        /*private void StopThread(int position)
+        {
+            if (position == 0)
+            {
+                if(img_left.ThreadState & ThreadState.Running == 1)
+                {
+                    img_left.Abort();
+                }
+            }
+
+            else if (position == 2)
+            {
+                if (img_right.ThreadState & ThreadState.Running == 1)
+                {
+                    img_right.Abort();
+                }
+            }
+        }*/
+
+        #endregion
+
         #region Mainmenu
         private void fileChangeDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -268,7 +285,9 @@ namespace TouchlessViewer
                 this.pictureBoxImage.Paint -= new PaintEventHandler(pictureBoxImage_Paint);
             }
         }
+        #endregion
 
+        #region wichtig
         void pictureBoxImage_Paint(object sender, PaintEventArgs e)
         {
             Point markerLocation = this.getMarkerLocation();
@@ -277,41 +296,41 @@ namespace TouchlessViewer
             e.Graphics.DrawEllipse(new Pen(new SolidBrush(Color.Red)), markerLocation.X, markerLocation.Y, 15, 15);
             this.toolStripStatusCursorPosition.Text = "Cursor X: " + markerLocation.X + " Y: " + markerLocation.Y;
         }
-        //Thread wixer = new Thread();
+
+
+        delegate void RotatorNext();
+
         void _currentMarker_OnChange(object sender, TouchlessLib.MarkerEventArgs e)
         {
-            /*
-                Timer t1 = new Timer(); // Timer anlegen
-                t1.Interval = 100; // Intervall festlegen, hier 100 ms
-                t1.Tick += new EventHandler(t1_Tick); // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
-                t1.Start(); // Timer starten*/
             Point markerLocation = this.getMarkerLocation();
             double activeArea = this.pictureBoxImage.Width * this.pictureBoxActiveArea;
 
 
             int position = 1; // 0 = left, 1 = center, 2 = right
 
-            if (markerLocation.X >= 0 && markerLocation.X < activeArea)
+            if (markerLocation.X >= 0 && markerLocation.X < activeArea) 
             {
-                position = 0;
+                position = 0; // Ellipse is in Left Area
                 this.toolStripStatusAreaPosition.Text = "Left";
             }
             else if (markerLocation.X >= (this.pictureBoxImage.Width - activeArea) && markerLocation.X <= this.pictureBoxImage.Width)
             {
-                position = 1;
+                position = 2; // Ellipse is in Center Area
                 this.toolStripStatusAreaPosition.Text = "Right";  
             }
             else
             {
-                position = 2;
+                position = 1; // Ellipse is in Right Area
                 this.toolStripStatusAreaPosition.Text = "Center";
-            }
+            }            
+            
 
             if(position == 0) // Left Enter
             {
                 if (!this.leftActive)
                 {
                     this.leftActive = true;
+                    pictureBoxImage.Invoke(new RotatorNext(this.Rotator.ShowPrevious));
                 }
             }
             
@@ -320,6 +339,7 @@ namespace TouchlessViewer
                 if (!this.rightActive)
                 {
                     this.rightActive = true;
+                    pictureBoxImage.Invoke(new RotatorNext(this.Rotator.ShowNext));
                 }
             }
 
@@ -344,12 +364,6 @@ namespace TouchlessViewer
             // cause PictureBox.Paint
             this.pictureBoxImage.Invalidate();
         }
-
-        /*
-        void t1_Tick(object sender, EventArgs e)
-        {
-            // dieser Code wird ausgeführt, wenn der Timer abgelaufen ist
-        }*/
 
         /// <summary>
         /// Calculate marker position in pictureBox
