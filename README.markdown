@@ -1,6 +1,6 @@
 # Information #
 
-An imageviewer for windows built upon the Touchless SDK (http://www.codeplex.com/touchless)
+An imageviewer for windows built upon the Touchless SDK (<a href="http://www.codeplex.com/touchless">http://www.codeplex.com/touchless</a>)
 
 # Setup #
 
