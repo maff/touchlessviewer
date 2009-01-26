@@ -37,7 +37,7 @@ namespace TouchlessViewer
         /// <summary>
         /// List containing the images.
         /// </summary>
-        protected List<string> _images;
+        protected List<string> _images = new List<string>();
         public List<string> Images
         {
             get { return this._images; }
