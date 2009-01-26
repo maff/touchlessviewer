@@ -19,6 +19,9 @@ namespace TouchlessViewer
             
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void syncFadeBox()
         {
             this.labelFadeDelay.Enabled = this.checkBoxFade.Checked;
