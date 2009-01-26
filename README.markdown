@@ -1,8 +1,8 @@
-## Information ##
+# Information #
 
 An imageviewer for windows built upon the Touchless SDK (<a href="http://www.codeplex.com/touchless">http://www.codeplex.com/touchless</a>)
 
-## Setup ##
+# Setup #
 
 To be able to compile the project, it's neccessary to add TouchlessLib.dll and WebCamLib.dll from the Touchless SDK distribution to the directory TouchlessViewer/Library and the corresponding output directories.
 
