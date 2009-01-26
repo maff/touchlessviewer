@@ -115,9 +115,7 @@
     <Compile Include="Common\Common.cs" />
     <Compile Include="Comparer\StringLogicalComparer.cs" />
     <Compile Include="Comparer\NumericComparer.cs" />
-    <Compile Include="ImageRotator\RotatorImageComparer.cs" />
     <Compile Include="ImageRotator\ImageRotator.cs" />
-    <Compile Include="ImageRotator\RotatorImage.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
