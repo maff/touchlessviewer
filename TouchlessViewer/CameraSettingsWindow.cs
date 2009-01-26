@@ -12,15 +12,21 @@ namespace TouchlessViewer
 {
     public partial class CameraSettingsWindow : Form
     {
+        /// <summary>
+        /// TouchlessManager Instance
+        /// </summary>
         private TouchlessManager tMgr = TouchlessManager.Instance;
 
         public CameraSettingsWindow()
         {
             InitializeComponent();
-
         }
 
-
+        /// <summary>
+        /// Check for cameras and abort if no cameras found
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CameraSettingsWindow_Load(object sender, EventArgs e)
         {
             if (!tMgr.checkCameras())
@@ -35,6 +41,11 @@ namespace TouchlessViewer
             }
         }
 
+        /// <summary>
+        /// Show camera property box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonAdjustCamera_Click(object sender, EventArgs e)
         {
             if (comboBoxCameras.SelectedIndex < 0)
@@ -44,6 +55,11 @@ namespace TouchlessViewer
             c.ShowPropertiesDialog(this.Handle);
         }
 
+        /// <summary>
+        /// Refresh Camera DropDown
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboBoxCameras_DropDown(object sender, EventArgs e)
         {
             comboBoxCameras.Items.Clear();
@@ -51,6 +67,9 @@ namespace TouchlessViewer
                 comboBoxCameras.Items.Add(cam);
         }
 
+        /// <summary>
+        /// Load camera ComboBox
+        /// </summary>
         private void loadCameraComboBox()
         {
             comboBoxCameras.Items.Clear();
@@ -68,17 +87,14 @@ namespace TouchlessViewer
             this.comboBoxCameras.SelectedIndex = index;
         }
 
+        /// <summary>
+        /// Activate the selected camera and bind to PictureBox.Paint Event
+        /// </summary>
         private void activateCamera()
         {
             // Early return if we've selected the current camera
             if (this.tMgr.Touchless.CurrentCamera == (Camera)this.comboBoxCameras.SelectedItem)
                 return;
-
-            // Trash the old camera
-            if (this.tMgr.Touchless.CurrentCamera != null)
-            {
-
-            }
 
             try
             {
@@ -95,11 +111,21 @@ namespace TouchlessViewer
             }
         }
 
+        /// <summary>
+        /// Activate camera on dropdown change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboBoxCameras_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.activateCamera();
         }
 
+        /// <summary>
+        /// Draw the latest image to the pictureBox and draw marker if necessary
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBoxCamera_Paint(object sender, PaintEventArgs e)
         {
             if (this.tMgr._latestFrame != null)
@@ -116,6 +142,11 @@ namespace TouchlessViewer
             }
         }
 
+        /// <summary>
+        /// Update date and pictureBox on captured image
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void c_OnImageCaptured(object sender, CameraEventArgs e)
         {
             // Calculate FPS (only update the display once every second)
@@ -137,6 +168,11 @@ namespace TouchlessViewer
             }
         }
 
+        /// <summary>
+        /// Control the "Add Marker" button text
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonAddMarker_Click(object sender, EventArgs e)
         {
             bool switchState = true;
@@ -160,6 +196,9 @@ namespace TouchlessViewer
                 this.tMgr._addingMarker = !this.tMgr._addingMarker;
         }
 
+        /// <summary>
+        /// Remove the active marker
+        /// </summary>
         private void removeMarker()
         {
             for(int i = 0; i < this.tMgr.Touchless.MarkerCount; i++)
@@ -172,6 +211,11 @@ namespace TouchlessViewer
             this.textBoxMarkerData.Lines = null;
         }
 
+        /// <summary>
+        /// Initiate adding of marker
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBoxCamera_MouseDown(object sender, MouseEventArgs e)
         {
             // If we are adding a marker - get the marker center on mouse down
@@ -185,6 +229,31 @@ namespace TouchlessViewer
             }
         }
 
+        /// <summary>
+        /// Update draw data and save coordinates
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBoxCamera_MouseMove(object sender, MouseEventArgs e)
+        {
+            // If the user is selecting a marker, draw a circle of their selection as a selection adornment
+            if (this.tMgr._addingMarker)
+            {
+                // Get the current radius
+                int dx = e.X - this.tMgr._markerCenter.X;
+                int dy = e.Y - this.tMgr._markerCenter.Y;
+                this.tMgr._markerRadius = (float)Math.Sqrt(dx * dx + dy * dy);
+
+                // Cause display update
+                pictureBoxCamera.Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Save the marker when mouse button is released
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBoxCamera_MouseUp(object sender, MouseEventArgs e)
         {
             // If we are adding a marker - get the marker radius on mouse up, add the marker
@@ -218,20 +287,6 @@ namespace TouchlessViewer
             }
         }
 
-        private void pictureBoxCamera_MouseMove(object sender, MouseEventArgs e)
-        {
-            // If the user is selecting a marker, draw a circle of their selection as a selection adornment
-            if (this.tMgr._addingMarker)
-            {
-                // Get the current radius
-                int dx = e.X - this.tMgr._markerCenter.X;
-                int dy = e.Y - this.tMgr._markerCenter.Y;
-                this.tMgr._markerRadius = (float)Math.Sqrt(dx * dx + dy * dy);
-
-                // Cause display update
-                pictureBoxCamera.Invalidate();
-            }
-        }
 
         /// <summary>
         /// Event Handler from the selected marker in the Marker Mode
@@ -247,6 +302,10 @@ namespace TouchlessViewer
             catch { } // TODO: fix this
         }
 
+        /// <summary>
+        /// Show marker information in textbox
+        /// </summary>
+        /// <param name="data"></param>
         private void UpdateMarkerDataInUI(MarkerEventData data)
         {
             if (data.Present)
@@ -270,24 +329,43 @@ namespace TouchlessViewer
                 this.textBoxMarkerData.Text = "Marker not present";
         }
 
-
+        /// <summary>
+        /// Close Form on OK click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonOK_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Update marker treshold
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void numericUpDownThreshold_ValueChanged(object sender, EventArgs e)
         {
             if (this.tMgr.Touchless.MarkerCount == 1)
                 this.tMgr.Touchless.Markers[0].Threshold = (int) this.numericUpDownThreshold.Value;
         }
 
+        /// <summary>
+        /// Update marker highlight property on checkbox change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkBoxHighlight_CheckedChanged(object sender, EventArgs e)
         {
             if (this.tMgr.Touchless.MarkerCount == 1)
                 this.tMgr.Touchless.Markers[0].Highlight = this.checkBoxHighlight.Checked;
         }
 
+        /// <summary>
+        /// Update marker smoothing property on checkbox change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkBoxSmoothMarker_CheckedChanged(object sender, EventArgs e)
         {
             if(this.tMgr.Touchless.MarkerCount == 1)
