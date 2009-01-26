@@ -14,13 +14,11 @@ namespace TouchlessViewer
 {
     public partial class MainWindow : Form
     {
-        #region Loading of Basic Content
-
+        #region Basic Stuff
         private ImageRotator Rotator;
         public List<string> AllowedExtensions;
         private TouchlessManager tMgr = TouchlessManager.Instance;
 
-        private ApplicationSettingsWindow applicationSettings = new ApplicationSettingsWindow();
         private CameraSettingsWindow cameraSettings = new CameraSettingsWindow();
         private AboutWindow aboutWindow = new AboutWindow();
         
@@ -251,16 +249,6 @@ namespace TouchlessViewer
         private void fileQuitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-        /// <summary>
-        /// Show application settings
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void applicationSettingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.applicationSettings.ShowDialog();
         }
 
         /// <summary>
